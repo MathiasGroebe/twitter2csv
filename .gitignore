@@ -50,5 +50,6 @@ Temporary Items
 # User
 # exclude working data
 
-.json
-.csv
+*.json
+*.csv
+*.txt
