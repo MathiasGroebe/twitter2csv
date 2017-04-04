@@ -8,12 +8,12 @@ import math
 
 #---setting variables---
 
-in_file = 'test3.json'
+in_file = 'test5.json'
 out_file = 'out.csv'
 delimiter = ';'
 
 csv_file = open(out_file, 'w', encoding = "utf8")
-csv_file.write('id' + delimiter + 'user_id' + delimiter + 'text' + delimiter + 'retweet_count' + delimiter + 'favorite_count' + delimiter + 'created_at' + delimiter + 'user_screen_name' + delimiter + 'lat' + delimiter + 'lng' + '\n')
+csv_file.write('id' + delimiter + 'user_id' + delimiter + 'text' + delimiter + 'retweet_count' + delimiter + 'favorite_count' + delimiter + 'created_at' + delimiter + 'user_screen_name' + delimiter + 'lat' + delimiter + 'lng' + delimiter + 'cood_type' + '\n')
 
 with open(in_file, 'r', encoding = "utf8") as data_file:
     for line in data_file:
@@ -26,6 +26,8 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
         csv_file.write(str(tweet['favorite_count']) + delimiter)
         csv_file.write(str(tweet['created_at']) + delimiter)
         csv_file.write(str(tweet['user']['screen_name']) + delimiter)
+
+        #calculate geometry, use native coordinates or centroid from polygon
         if(tweet['geo'] == None):
             if(tweet['place']['bounding_box']['type'] == 'Polygon'):
                 x1 = tweet['place']['bounding_box']['coordinates'][0][0][0]
@@ -47,14 +49,22 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
 
                 csv_file.write(str(x) + delimiter)
                 csv_file.write(str(y) + delimiter)
+                csv_file.write('place' + delimiter)
 
             else:
                 print('No Polygon!')
                 csv_file.write(str(-9999) + delimiter)
                 csv_file.write(str(-9999) + delimiter)
+                csv_file.write('error' + delimiter)
         else:
             csv_file.write(str(tweet['geo']['coordinates'][0]) + delimiter)
             csv_file.write(str(tweet['geo']['coordinates'][1]) + delimiter)
+
+            if(tweet['place'] == None):
+                csv_file.write('coord' + delimiter)
+            else:
+                csv_file.write('both' + delimiter)
+
         csv_file.write('\n')
 
 csv_file.close()
