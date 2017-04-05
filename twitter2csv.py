@@ -59,7 +59,7 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
                     print('No Polygon!')
                     csv_file.write(str(-9999) + delimiter)
                     csv_file.write(str(-9999) + delimiter)
-                    csv_file.write('error' + delimiter)
+                    csv_file.write('none' + delimiter)
             else:
                 csv_file.write(str(tweet['geo']['coordinates'][0]) + delimiter)
                 csv_file.write(str(tweet['geo']['coordinates'][1]) + delimiter)
@@ -70,7 +70,21 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
                     csv_file.write('both' + delimiter)
 
             csv_file.write('\n')
+
+        # Handle Error / Limit
         else:
-            print("Error!")
+            print('Limit/Error')
+            csv_file.write(str(-9999) + delimiter)
+            csv_file.write(str(-9999) + delimiter)
+            csv_file.write('Limit' + delimiter)
+            csv_file.write(str(0) + delimiter)
+            csv_file.write(str(0) + delimiter)
+            csv_file.write(str(tweet['limit']['timestamp_ms']) + delimiter)
+            csv_file.write('Twitter' + delimiter)
+            csv_file.write(str(-9999) + delimiter)
+            csv_file.write(str(-9999) + delimiter)
+            csv_file.write('none' + delimiter)
+            csv_file.write('\n')
+
 
 csv_file.close()

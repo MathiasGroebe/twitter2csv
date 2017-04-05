@@ -7,6 +7,7 @@ Converts Twitter JSON to CSV with special options for greoreferenced Tweets.
 - Converting Twitter JSON to CSV
 - Calculating centroid for place to get a point geometry
 - Convert Timestamp //TODO
+- Report Limitstatus from Twitter
 
 ## License
 
