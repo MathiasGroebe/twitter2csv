@@ -5,10 +5,11 @@ ___author___ = 'MathiasGroebe'
 #---impot libaries---
 import json
 import math
+from datetime import datetime
 
 #---setting variables---
 
-in_file = 'test6.json'
+in_file = 'test5.json'
 out_file = 'out.csv'
 delimiter = ';'
 
@@ -28,7 +29,9 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
             csv_file.write('"' + str(tweet['text']) + '"' + delimiter)
             csv_file.write(str(tweet['retweet_count']) + delimiter)
             csv_file.write(str(tweet['favorite_count']) + delimiter)
-            csv_file.write(str(tweet['created_at']) + delimiter)
+            #convert timestamp (UTC)
+            timestamp = datetime.utcfromtimestamp(round(int(tweet['timestamp_ms'])/1000, 0))
+            csv_file.write(str(timestamp) + delimiter)
             csv_file.write(str(tweet['user']['screen_name']) + delimiter)
 
             #calculate geometry, use native coordinates or centroid from polygon
@@ -79,7 +82,9 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
             csv_file.write('Limit' + delimiter)
             csv_file.write(str(0) + delimiter)
             csv_file.write(str(0) + delimiter)
-            csv_file.write(str(tweet['limit']['timestamp_ms']) + delimiter)
+            #convert timestamp (UTC)
+            timestamp = datetime.utcfromtimestamp(round(int(tweet['limit']['timestamp_ms'])/1000, 0))
+            csv_file.write(str(timestamp) + delimiter)
             csv_file.write('Twitter' + delimiter)
             csv_file.write(str(-9999) + delimiter)
             csv_file.write(str(-9999) + delimiter)
