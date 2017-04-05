@@ -9,7 +9,7 @@ from datetime import datetime
 
 #---setting variables---
 
-in_file = 'test5.json'
+in_file = 'test6.json'
 out_file = 'out.csv'
 delimiter = ';'
 
@@ -23,10 +23,12 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
         #check if tweet or limit
         if 'id' in tweet:
 
-            #print(tweet['id'])
+            print(tweet['id'])
             csv_file.write(str(tweet['id']) + delimiter)
             csv_file.write(str(tweet['user']['id']) + delimiter)
-            csv_file.write('"' + str(tweet['text']) + '"' + delimiter)
+            #remove linebreaks
+            text = tweet['text'].replace('\r', '').replace('\n', '')
+            csv_file.write('"' + str(text) + '"' + delimiter)
             csv_file.write(str(tweet['retweet_count']) + delimiter)
             csv_file.write(str(tweet['favorite_count']) + delimiter)
             #convert timestamp (UTC)
