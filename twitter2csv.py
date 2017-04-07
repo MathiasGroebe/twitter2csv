@@ -14,7 +14,7 @@ out_file = 'out.csv'
 delimiter = ';'
 
 csv_file = open(out_file, 'w', encoding = "utf8")
-csv_file.write('id' + delimiter + 'user_id' + delimiter + 'text' + delimiter + 'retweet_count' + delimiter + 'favorite_count' + delimiter + 'created_at' + delimiter + 'user_screen_name' + delimiter + 'lat' + delimiter + 'lng' + delimiter + 'cood_type' + '\n')
+csv_file.write('id' + delimiter + 'user_id' + delimiter + 'text' + delimiter + 'retweet_count' + delimiter + 'favorite_count' + delimiter + 'created_at' + delimiter + 'user_screen_name' + delimiter + 'lat' + delimiter + 'lng' + delimiter + 'cood_type' + delimiter + 'place_type' + delimiter + 'place_name' + delimiter + '\n')
 
 with open(in_file, 'r', encoding = "utf8") as data_file:
     for line in data_file:
@@ -23,7 +23,7 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
         #check if tweet or limit
         if 'id' in tweet:
 
-            print(tweet['id'])
+            #print(tweet['id'])
             csv_file.write(str(tweet['id']) + delimiter)
             csv_file.write(str(tweet['user']['id']) + delimiter)
             #remove linebreaks
@@ -59,11 +59,14 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
                     csv_file.write(str(x) + delimiter)
                     csv_file.write(str(y) + delimiter)
                     csv_file.write('place' + delimiter)
+                    csv_file.write(str(tweet['place']['place_type']) + delimiter)
+                    csv_file.write(str(tweet['place']['name']) + delimiter)
 
                 else:
                     print('No Polygon!')
                     csv_file.write(str(-9999) + delimiter)
                     csv_file.write(str(-9999) + delimiter)
+                    csv_file.write('none' + delimiter)
                     csv_file.write('none' + delimiter)
             else:
                 csv_file.write(str(tweet['geo']['coordinates'][0]) + delimiter)
@@ -73,6 +76,9 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
                     csv_file.write('coord' + delimiter)
                 else:
                     csv_file.write('both' + delimiter)
+
+                csv_file.write('none' + delimiter)
+                csv_file.write('none' + delimiter)
 
             csv_file.write('\n')
 
@@ -90,6 +96,8 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
             csv_file.write('Twitter' + delimiter)
             csv_file.write(str(-9999) + delimiter)
             csv_file.write(str(-9999) + delimiter)
+            csv_file.write('none' + delimiter)
+            csv_file.write('none' + delimiter)
             csv_file.write('none' + delimiter)
             csv_file.write('\n')
 
