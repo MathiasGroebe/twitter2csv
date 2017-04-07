@@ -14,7 +14,7 @@ out_file = 'out.csv'
 delimiter = ';'
 
 csv_file = open(out_file, 'w', encoding = "utf8")
-csv_file.write('id' + delimiter + 'user_id' + delimiter + 'text' + delimiter + 'retweet_count' + delimiter + 'favorite_count' + delimiter + 'created_at' + delimiter + 'user_screen_name' + delimiter + 'lat' + delimiter + 'lng' + delimiter + 'cood_type' + delimiter + 'place_type' + delimiter + 'place_name' + delimiter + '\n')
+csv_file.write('id' + delimiter + 'user_id' + delimiter + 'text' + delimiter + 'language' + delimiter + 'retweet_count' + delimiter + 'favorite_count' + delimiter + 'created_at' + delimiter + 'user_screen_name' + delimiter + 'lat' + delimiter + 'lng' + delimiter + 'cood_type' + delimiter + 'place_type' + delimiter + 'place_name' + delimiter + '\n')
 
 with open(in_file, 'r', encoding = "utf8") as data_file:
     for line in data_file:
@@ -29,6 +29,7 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
             #remove linebreaks
             text = tweet['text'].replace('\r', '').replace('\n', '')
             csv_file.write('"' + str(text) + '"' + delimiter)
+            csv_file.write(str(tweet['lang']) + delimiter)
             csv_file.write(str(tweet['retweet_count']) + delimiter)
             csv_file.write(str(tweet['favorite_count']) + delimiter)
             #convert timestamp (UTC)
@@ -74,11 +75,12 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
 
                 if(tweet['place'] == None):
                     csv_file.write('coord' + delimiter)
+                    csv_file.write('none' + delimiter)
+                    csv_file.write('none' + delimiter)
                 else:
                     csv_file.write('both' + delimiter)
-
-                csv_file.write('none' + delimiter)
-                csv_file.write('none' + delimiter)
+                    csv_file.write(str(tweet['place']['place_type']) + delimiter)
+                    csv_file.write(str(tweet['place']['name']) + delimiter)
 
             csv_file.write('\n')
 
@@ -88,6 +90,7 @@ with open(in_file, 'r', encoding = "utf8") as data_file:
             csv_file.write(str(-9999) + delimiter)
             csv_file.write(str(-9999) + delimiter)
             csv_file.write('Limit' + delimiter)
+            csv_file.write(str(0) + delimiter)
             csv_file.write(str(0) + delimiter)
             csv_file.write(str(0) + delimiter)
             #convert timestamp (UTC)
